@@ -1,7 +1,10 @@
 import sys
 import re
+import logging
 import argparse
 import requests_html
+
+logging.basicConfig(level=logging.CRITICAL)
 
 
 class TreccaniScraper:
@@ -12,6 +15,7 @@ class TreccaniScraper:
         self.sesh = requests_html.HTMLSession()
         self.word = word
         self.SEARCH_URL = f"{self.BASE_URL}/ricerca/{self.word}/"
+        logging.debug("Instantiated the object")
     
     def get_possibilities(self):
         p = self.sesh.get(self.SEARCH_URL)
@@ -22,6 +26,7 @@ class TreccaniScraper:
             if "%28" not in href and "%29" not in href:
                 word_meanings.add(href)
         self.word_meanings = word_meanings
+        logging.debug("Found %s pages. Looking for defintions...", len(word_meanings))
         return word_meanings
 
     def get_definitions(self):
@@ -29,7 +34,6 @@ class TreccaniScraper:
         for i in self.word_meanings:
             meaning = i
             MEANING_URL = f"{self.BASE_URL}/{meaning}/"
-            print(f"Meaning URL = {MEANING_URL}")
             page = self.sesh.get(MEANING_URL)
             selector = f"div.text.spiega > p"
             for i in page.html.find(selector):
@@ -42,29 +46,13 @@ class TreccaniScraper:
         return results
 
 # -------------------------------------------------------------------------------------------------------------
-user_input = sys.argv[1]
-scraper = TreccaniScraper(user_input)
-print(f"received user input: fetching Treccani page '{user_input}'...")
-words_set = scraper.get_possibilities()
-definitions_txt = scraper.get_definitions()
-for text in definitions_txt:
-    print(scraper.find_definitions(text))
+def main():
+    user_input = sys.argv[1]
+    logging.info("Looking for '%s'", user_input)
+    scraper = TreccaniScraper(user_input)
+    scraper.get_possibilities()
+    definitions_txt = scraper.get_definitions()
+    for text in definitions_txt:
+        print("\n".join(scraper.find_definitions(text)))
 
-
-
-# if __name__ == '__main__':
-# parser = argparse.ArgumentParser(
-#     formatter_class=argparse.RawDescriptionHelpFormatter,
-#     description=textwrap.dedent("\n\
-#     This is a scraper for the Italian renowned Enciclopedia Treccani\n\
-#     USAGE:\n\
-#     python3 tr3ccani_scraper.py <word>\n\
-#     "))
-# parser.add_argument('-w', nargs='+')
-# parser.add_argument('-e','--enciclopedia', help='Look in Encyclopaedia', default=False)
-# parser.add_argument('-v','--vocabulary', help='Look in Vocabulary', default=True)
-# arguments = parser.parse_args()
-# print(arguments.vocabulary)
-# print ("Encyclo: %s" % arguments.enciclopedia )
-# print ("Vocab: %s" % arguments.vocabulary )
-# main(arguments)
+main()
