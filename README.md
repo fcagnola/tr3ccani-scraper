@@ -20,10 +20,10 @@ cd <your desired folder>
 git clone https://github.com/fcagnola/tr3ccani-scraper.git
 ```
 
-To scrape the web I used the fantastic requests-html package, which you'll need to install for this to work:
+To scrape the web I used the fantastic requests-html package, which you'll need to install together with 'rich' for amazing console output:
 
 ```shell
-pip3 install --upgrade requests_html
+pip3 install requirements.txt
 ```
 
 Finally, to get the definition(s) of a word, type
@@ -35,4 +35,4 @@ python3 scraper.py <word>
 
 The utility will run and print on the command line one result per line. As of now I only managed to get the first "use" for each page, but I do support multiple pages (each word can have multiple different meanings -> multiple pages, and multiple uses for that meaning).
 
-I'm working on making it available as a python package in order to be able to use it in other scripts.
+I'm working on making it available as a python package in order to be able to use it in other scripts as well as make command-line arguments for saving the output.
