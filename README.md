@@ -5,7 +5,7 @@
 
 If you've you ever thought "*I wonder what the definition of 'pasta' is in Italian*", this CLI is for you!
 
-[![example](CLI_example.png)]
+![example](CLI_example.png)
 
 The **Treccani Encyclopaedia** is a renowned and revered source of knowledge for any respectable italian🇮🇹.
 
