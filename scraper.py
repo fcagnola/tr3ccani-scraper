@@ -6,7 +6,7 @@ import argparse
 import requests_html
 from rich.console import Console
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.CRITICAL)
 
 rich_console = Console()
 
@@ -57,7 +57,6 @@ class TreccaniScraper:
             
             # Find paragraph(s) with the word's definitions 
             selector = f"div.text.spiega > p"
-            print(page.html.find(selector))
             for i in page.html.find(selector):
                 logging.debug(f" Div-text found in the page")
                 txt = i.text
@@ -77,13 +76,16 @@ class TreccaniScraper:
         of each 'meaning' and puts it in the definitions list'''
         pattern = re.compile(r"\s?&&.*?&&|££.*?££") # &&x&& OR ££x££ 
         def_list = re.split(pattern, text)
-        for i in def_list[1:2]:
-            stops = re.compile(r"[;:.(-](?!,)")
-            l = re.split(stops, i)
-            # in case the sentence was split on . and the search word was the same letter, add the remaining of the word
-            if len(l[0].split(" ")[-1]) == 1 and self.word[0] == l[0].split(" ")[-1]:
-                l[0] += self.word[1:]
-            self.definitions.append(l[0])
+        logging.debug(f" list of split text {def_list}")
+        for i in def_list[1:3]:
+            if i != "":
+                logging.debug(f" looking for definition in {i}")
+                stops = re.compile(r"[;:.(-](?!,)")
+                l = re.split(stops, i)
+                # in case the sentence was split on . and the search word was the same letter, add the remaining of the word
+                if len(l[0].split(" ")[-1]) == 1 and self.word[0] == l[0].split(" ")[-1]:
+                    l[0] += self.word[1:]
+                self.definitions.append(l[0])
         return
 
     def scrape(self) -> list: # main function, calls the intermediate methods and returns the result
@@ -103,6 +105,7 @@ def main():
     rich_console.print(f"\n[cyan bold underline]Searching for word '{user_input}...'\n")
     scraper = TreccaniScraper(user_input)
     scraper.scrape()
+    logging.debug(f" definitions: \n{scraper.definitions}")
     for definition in scraper.definitions:
         rich_console.rule(scraper.word.title())
         rich_console.print(definition)
