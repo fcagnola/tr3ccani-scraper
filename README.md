@@ -29,7 +29,7 @@ git clone https://github.com/fcagnola/tr3ccani-scraper.git
 To scrape the web I used the fantastic **requests-html** package, which you'll need to install together with **rich** for good-looking console output:
 
 ```shell
-pip3 install requirements.txt
+pip3 install -r requirements.txt
 ```
 
 Finally, to get the definition(s) of a word, type
