@@ -17,7 +17,7 @@ Anyway, if you decide to use it and have suggestions, feel free to fork, add a b
 
 ## _Usage:_
 
-The package is written in Python 3.9, but I think anything above Python 3.6 is supported.
+The package is written in Python 3.9, but I think anything above Python 3.6 should work.
 
 First of all, clone the repository to a local folder on your machine.
 
@@ -29,7 +29,7 @@ git clone https://github.com/fcagnola/tr3ccani-scraper.git
 To scrape the web I used the fantastic **requests-html** package, which you'll need to install together with **rich** for good-looking console output:
 
 ```shell
-pip3 install requirements.txt
+pip3 install -r requirements.txt
 ```
 
 Finally, to get the definition(s) of a word, type
@@ -46,4 +46,4 @@ I'm working on making it available as a python package in order to be able to us
 ## Disclaimer
 
 The goal of this utility is simply researching a few words from a very reliable source. I do not own any content of treccani.it and this script is not intended for production environments.
-You can get in touch with me for any questions not covered by the [licence](https://github.com/fcagnola/tr3ccani-scraper/blob/afb27a8aba6bf47ea109f2c1be16e27c1def8288/LICENSE) which is not intended to include any material from the encyclopaedia website, but only my script.
+You can get in touch with me for any questions not covered by the [license](https://github.com/fcagnola/tr3ccani-scraper/blob/afb27a8aba6bf47ea109f2c1be16e27c1def8288/LICENSE) which is not intended to include any material from the encyclopaedia website, but only my script.
